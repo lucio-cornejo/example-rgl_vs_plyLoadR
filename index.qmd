@@ -1,0 +1,85 @@
+---
+title: "Wound evolution"
+execute:
+  echo: false
+format:
+  html:
+    theme: yeti
+    toc: true
+    toc-float: true
+---
+
+```{r, setup}
+#| include: false
+
+rgl::setupKnitr(autoprint = TRUE) 
+
+# Global variables
+patient = "EC00286"
+hospital = "VD"
+
+Mainpath = "./ply-files"
+Folderviews = dir(Mainpath)
+ViewsNames = stringr::str_sub(Folderviews, start = 9, end = 18)
+```
+
+- Patient: `r patient`
+
+## rgl graphic
+
+```{r, load-ply-files-into-rgl}
+#| message: false
+#| warning: false
+#| include: false
+m3d <- list()
+for (i in 1:length(Folderviews)){
+  m3d[[i]] <- Rvcg::vcgPlyRead(paste0(Mainpath, "/", Folderviews[i]))  
+  # Set opacity of graphics
+  m3d[[i]]$material$alpha <- 0.1  
+}
+
+rgl::close3d()
+
+library(rgl)
+library(magrittr)
+
+# Open and load geometries
+rgl::open3d()
+bg3d(color = "gray10")
+rgl.material(back = "culled", lit = FALSE, shininess = 90)
+
+vistas3D <- list()
+for(i in 1:length(Folderviews)){
+  vistas3D[[i]] <- shade3d(m3d[[i]])
+}
+
+widget2 <- rglwidget(elementId = "rglGraphic") %>% 
+  toggleWidget(ids = vistas3D[[1]], label = ViewsNames[1])  
+
+for (i in 2:length(vistas3D)) {
+  widget2 <- widget2 %>% toggleWidget(hidden = vistas3D[[i]], label = ViewsNames[i])
+}
+
+widget2 <- widget2 %>% asRow(last = length(ViewsNames)) 
+
+rgl::close3d()
+```
+
+```{r, display-rgl-graphic}
+widget2
+```
+
+## plyLoadR graphic
+
+```{r}
+#| warning: false
+# Load the same ply files, now via the plyLoadR library
+library(plyLoadR)
+
+plyLoadR(
+  paths = paste0(Mainpath, "/", Folderviews),
+  localFiles = TRUE,
+  elementId = "plyLoadRGraphic"
+)
+```
+
