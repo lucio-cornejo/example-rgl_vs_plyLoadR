@@ -38,9 +38,11 @@ patient1_ViewsNames = ViewsNames[-(1:5)]
 m3d <- list()
 for (i in 1:length(patient1_FolderViews)){
   m3d[[i]] <- Rvcg::vcgPlyRead(paste0(Mainpath, "/", patient1_FolderViews[i]))  
-  # Set opacity of graphics
-  m3d[[i]]$material$alpha <- 0.1  
 }
+
+# Set opacity of graphics
+m3d[[1]]$material$alpha <- 0.4
+m3d[[2]]$material$alpha <- 0.6
 
 rgl::close3d()
 
@@ -86,8 +88,8 @@ plyLoadR(
   elementId = "plyLoadRGraphic1",
   settings = list(
     isTransparent = list(TRUE, TRUE),
-    opacity = list(0.1, 0.9),
-    isWireframe = list(FALSE, TRUE)
+    opacity = list(0.4, 0.6),
+    isWireframe = list(FALSE, FALSE)
   )
 )
 ```
