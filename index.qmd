@@ -20,10 +20,14 @@ hospital = "VD"
 
 Mainpath = "./ply-files"
 FolderViews = dir(Mainpath)
-ViewsNames = stringr::str_sub(FolderViews, start = 9, end = 18)
-```
+ViewsNames = stringr::str_sub(FolderViews, start = 10, end = -5L)
 
-- Patient: `r patient`
+patient0_FolderViews = FolderViews[1:5]
+patient0_ViewsNames = ViewsNames[1:5]
+
+patient1_FolderViews = FolderViews[-(1:5)]
+patient1_ViewsNames = ViewsNames[-(1:5)]
+```
 
 ## rgl graphic
 
@@ -32,8 +36,8 @@ ViewsNames = stringr::str_sub(FolderViews, start = 9, end = 18)
 #| warning: false
 #| include: false
 m3d <- list()
-for (i in 1:length(FolderViews)){
-  m3d[[i]] <- Rvcg::vcgPlyRead(paste0(Mainpath, "/", FolderViews[i]))  
+for (i in 1:length(patient1_FolderViews)){
+  m3d[[i]] <- Rvcg::vcgPlyRead(paste0(Mainpath, "/", patient1_FolderViews[i]))  
   # Set opacity of graphics
   m3d[[i]]$material$alpha <- 0.1  
 }
@@ -49,18 +53,18 @@ bg3d(color = "gray10")
 rgl.material(back = "culled", lit = FALSE, shininess = 90)
 
 vistas3D <- list()
-for(i in 1:length(FolderViews)){
+for(i in 1:length(patient1_FolderViews)){
   vistas3D[[i]] <- shade3d(m3d[[i]])
 }
 
 widget2 <- rglwidget(elementId = "rglGraphic") %>% 
-  toggleWidget(ids = vistas3D[[1]], label = ViewsNames[1])  
+  toggleWidget(ids = vistas3D[[1]], label = patient1_ViewsNames[1])  
 
 for (i in 2:length(vistas3D)) {
-  widget2 <- widget2 %>% toggleWidget(hidden = vistas3D[[i]], label = ViewsNames[i])
+  widget2 <- widget2 %>% toggleWidget(hidden = vistas3D[[i]], label = patient1_ViewsNames[i])
 }
 
-widget2 <- widget2 %>% asRow(last = length(ViewsNames)) 
+widget2 <- widget2 %>% asRow(last = length(patient1_ViewsNames)) 
 
 rgl::close3d()
 ```
@@ -69,7 +73,7 @@ rgl::close3d()
 widget2
 ```
 
-## plyLoadR graphic
+## plyLoadR similar graphic
 
 ```{r}
 #| warning: false
@@ -77,7 +81,7 @@ widget2
 library(plyLoadR)
 
 plyLoadR(
-  paths = paste0(Mainpath, "/", FolderViews),
+  paths = paste0(Mainpath, "/", patient1_FolderViews),
   localFiles = TRUE,
   elementId = "plyLoadRGraphic1",
   settings = list(
@@ -88,13 +92,15 @@ plyLoadR(
 )
 ```
 
+## plyLoadR: Mesh evolution
+
 ```{r}
 #| warning: false
 plyLoadR(
-  paths = paste0(Mainpath, "/", FolderViews),
+  paths = paste0(Mainpath, "/", patient0_FolderViews),
   localFiles = TRUE,
   elementId = "plyLoadRGraphic2",
-  settings = list(isTransparent = list(TRUE, TRUE))
+  settings = list(isTransparent = as.list(rep(TRUE, 5)))
 )
 ```
 
@@ -142,24 +148,22 @@ p.rangeLabel.selected {
 ```{r, add-mesh-buttons}
 #| results: asis
 
-ViewsDates <- c("2022-01-05", "2022-01-11")
-
 non_auto <- paste0(
   '<input id="slide" type="range" min="1" max="',
-  length(FolderViews),
+  length(patient0_FolderViews),
   '" step="0.05" value="1" />\n',
   '<div class="rangeWrapper">\n',
   '  <p class="rangeLabel selected" data-child="1">',
-  ViewsDates[1],
+  patient0_ViewsNames[1],
   '  </p>\n'
 )
 
-select_buttons <- function(n_of_mesh_left = length(FolderViews)) {
+select_buttons <- function(n_of_mesh_left = length(patient0_FolderViews)) {
   if (n_of_mesh_left > 0 ) {
     return(paste0(
       '<p class="rangeLabel" data-child="',
-      1 + length(FolderViews) - n_of_mesh_left, '">',
-      ViewsDates[1 + length(FolderViews) - n_of_mesh_left],
+      1 + length(patient0_FolderViews) - n_of_mesh_left, '">',
+      patient0_ViewsNames[1 + length(patient0_FolderViews) - n_of_mesh_left],
       '</p>\n',
       select_buttons(n_of_mesh_left - 1)
     ))
@@ -168,7 +172,7 @@ select_buttons <- function(n_of_mesh_left = length(FolderViews)) {
   }
 }
 
-buttons_code <- select_buttons(length(FolderViews) - 1)
+buttons_code <- select_buttons(length(patient0_FolderViews) - 1)
 
 cat(
   non_auto,
@@ -233,7 +237,7 @@ let plyLoadComplete = setInterval(
       obj => obj.type === "Mesh"
     );
 
-    if (triangleIds.length === 2) {
+    if (triangleIds.length === 5) {
       updateOpacity();
       clearInterval(plyLoadComplete);
     }
