@@ -184,8 +184,7 @@ cat(
 )
 ```
 
-<!-- Opacity controls interactivity -->
-```{js}
+```{js, opacity-controls-interactivity}
 let opacityToggle, slide, triangleIds;
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -246,3 +245,8 @@ let plyLoadComplete = setInterval(
   }, 2000
 );
 ```
+
+<br>
+<br>
+
+[Github repo for this example](https://github.com/lucio-cornejo/rgl-plyLoadR-comparison-example)
