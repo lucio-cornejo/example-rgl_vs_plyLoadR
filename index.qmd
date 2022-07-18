@@ -19,8 +19,8 @@ patient = "EC00286"
 hospital = "VD"
 
 Mainpath = "./ply-files"
-Folderviews = dir(Mainpath)
-ViewsNames = stringr::str_sub(Folderviews, start = 9, end = 18)
+FolderViews = dir(Mainpath)
+ViewsNames = stringr::str_sub(FolderViews, start = 9, end = 18)
 ```
 
 - Patient: `r patient`
@@ -32,8 +32,8 @@ ViewsNames = stringr::str_sub(Folderviews, start = 9, end = 18)
 #| warning: false
 #| include: false
 m3d <- list()
-for (i in 1:length(Folderviews)){
-  m3d[[i]] <- Rvcg::vcgPlyRead(paste0(Mainpath, "/", Folderviews[i]))  
+for (i in 1:length(FolderViews)){
+  m3d[[i]] <- Rvcg::vcgPlyRead(paste0(Mainpath, "/", FolderViews[i]))  
   # Set opacity of graphics
   m3d[[i]]$material$alpha <- 0.1  
 }
@@ -49,7 +49,7 @@ bg3d(color = "gray10")
 rgl.material(back = "culled", lit = FALSE, shininess = 90)
 
 vistas3D <- list()
-for(i in 1:length(Folderviews)){
+for(i in 1:length(FolderViews)){
   vistas3D[[i]] <- shade3d(m3d[[i]])
 }
 
@@ -77,9 +77,166 @@ widget2
 library(plyLoadR)
 
 plyLoadR(
-  paths = paste0(Mainpath, "/", Folderviews),
+  paths = paste0(Mainpath, "/", FolderViews),
   localFiles = TRUE,
-  elementId = "plyLoadRGraphic"
+  elementId = "plyLoadRGraphic1",
+  settings = list(
+    isTransparent = list(TRUE, TRUE),
+    opacity = list(0.1, 0.9),
+    isWireframe = list(FALSE, TRUE)
+  )
 )
 ```
 
+```{r}
+#| warning: false
+plyLoadR(
+  paths = paste0(Mainpath, "/", FolderViews),
+  localFiles = TRUE,
+  elementId = "plyLoadRGraphic2",
+  settings = list(isTransparent = list(TRUE, TRUE))
+)
+```
+
+<!-- Opacity controls -->
+```{css}
+#opacity-toggle {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1em;
+}
+
+#slide {
+  width: 100%;
+  margin-top: 20px;
+}
+
+.rangeWrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+p.rangeLabel {
+  font-family: "Arial", sans-serif;
+  padding: 7.5px;
+  margin: 5px 0;
+  background: rgb(136,136,136);
+  font-size: 15px;
+  line-height: 20px;
+}
+
+p.rangeLabel:hover {
+  background-color: rgb(3, 82, 3);
+  color: #fff;
+  cursor: pointer;
+}
+
+p.rangeLabel.selected {
+  background-color: rgb(8, 173, 8);
+  color: rgb(255,255,255);
+}
+```
+
+<!-- Visibility toggle buttons -->
+```{r, add-mesh-buttons}
+#| results: asis
+
+ViewsDates <- c("2022-01-05", "2022-01-11")
+
+non_auto <- paste0(
+  '<input id="slide" type="range" min="1" max="',
+  length(FolderViews),
+  '" step="0.05" value="1" />\n',
+  '<div class="rangeWrapper">\n',
+  '  <p class="rangeLabel selected" data-child="1">',
+  ViewsDates[1],
+  '  </p>\n'
+)
+
+select_buttons <- function(n_of_mesh_left = length(FolderViews)) {
+  if (n_of_mesh_left > 0 ) {
+    return(paste0(
+      '<p class="rangeLabel" data-child="',
+      1 + length(FolderViews) - n_of_mesh_left, '">',
+      ViewsDates[1 + length(FolderViews) - n_of_mesh_left],
+      '</p>\n',
+      select_buttons(n_of_mesh_left - 1)
+    ))
+  } else {
+    return('\n')
+  }
+}
+
+buttons_code <- select_buttons(length(FolderViews) - 1)
+
+cat(
+  non_auto,
+  buttons_code,
+  '</div>\n',
+  sep = ""
+)
+```
+
+<!-- Opacity controls interactivity -->
+```{js}
+let opacityToggle, slide, triangleIds;
+
+document.addEventListener('DOMContentLoaded', function () {
+  // Get slider
+  slide = document.querySelector("#slide");
+
+  // Update opacity in graphics when slider changes
+  slide.addEventListener("input", function () {
+    updateOpacity();
+
+    let value = String(Math.round(slide.value));
+    
+    document.querySelectorAll('p.rangeLabel').forEach(
+      el => el.classList.remove("selected")
+    );
+    document.querySelector("p.rangeLabel[data-child='" + value + "']")
+      .classList.add('selected');
+  });
+
+  document.querySelectorAll('p.rangeLabel').forEach(item => {
+    item.addEventListener('click', function () {
+      slide.value = this.dataset.child;
+      // Trigger input event for the slider
+      slide.dispatchEvent(new Event('input', {bubbles:true}));
+    })
+  })
+});
+
+// Update opacity values
+function updateOpacity () {
+  let opacidad = slide.value;
+  triangleIds.forEach( (plyMesh, index) => {
+    if ( (index <= opacidad) && (opacidad <= index + 2) ) {
+      plyMesh.material.opacity = Math.abs(Math.abs(opacidad - index - 1) - 1);
+    } else {
+      plyMesh.material.opacity = 0;
+    }
+  })
+
+  // Reorder which mesh gets rendered last
+  triangleIds.forEach(plyMesh => plyMesh.renderOrder = 2);
+  triangleIds[Math.floor(opacidad) - 1].renderOrder = 1;
+  triangleIds[Math.ceil(opacidad) - 1].renderOrder = 1;
+  triangleIds[Math.round(opacidad) - 1].renderOrder = 0;
+}
+
+let plyLoadComplete = setInterval(
+  function () {
+    // Get every mesth type object
+    triangleIds = plyLoadRGraphic2.scene.children.filter(
+      obj => obj.type === "Mesh"
+    );
+
+    if (triangleIds.length === 2) {
+      updateOpacity();
+      clearInterval(plyLoadComplete);
+    }
+  }, 2000
+);
+```

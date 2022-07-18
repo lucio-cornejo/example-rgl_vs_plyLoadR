@@ -1,30 +1,46 @@
-function loadPLY(path, identifier) {
+function loadPLY(x, index, identifier) {
   let loader = new THREE.PLYLoader();
-  loader.load(path, function (geometry) {
+  loader.load(x.paths[index], function (geometry) {
     geometry.computeVertexNormals();
     
     let material = new THREE.MeshStandardMaterial({
         wireframe: false,
         opacity: 1,
-        transparent: true,
+        transparent: false,
         vertexColors: THREE.VertexColors
       });
-    
+
     let mesh = new THREE.Mesh(geometry, material);
     // mesh.scale.multiplyScalar(0.035);
           
     window[identifier]["scene"].add(mesh);
+
+    if (x.settings) {
+      if ('isWireframe' in x.settings) {
+        window[identifier].scene.children.at(-1)
+          .material.wireframe = x.settings.isWireframe[index];
+      }
+      if ('opacity' in x.settings) {
+        window[identifier].scene.children.at(-1)
+          .material.opacity = x.settings.opacity[index];
+      }
+      if ('isTransparent' in x.settings) {
+        window[identifier].scene.children.at(-1)
+          .material.transparent = x.settings.isTransparent[index];
+      }
+    }
   });
 }
 
-function init(paths, identifier) {
+function init(x, identifier) {
   window[identifier] = {};
   let widgetDiv = document.getElementById(identifier);
   
   // renderer
   renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setPixelRatio(window.devicePixelRatio);
-  renderer.setSize(window.innerWidth / 1.715, window.innerHeight / 1.715);
+  // renderer.setSize(window.innerWidth / 1.715, window.innerHeight / 1.715);
+  renderer.setSize(window.innerWidth / 1.776, window.innerHeight / 1.586);
   renderer.outputEncoding = THREE.sRGBEncoding;
   renderer.shadowMap.enabled = true;
   widgetDiv.appendChild( renderer.domElement );
@@ -58,8 +74,8 @@ function init(paths, identifier) {
   );
 
   // Load PLY file
-  for (let i=0; i < paths.length; i++) {
-    loadPLY(paths[i], identifier);
+  for (let index = 0; index < x.paths.length; index++) {
+    loadPLY(x, index, identifier);
   }
 
   // resize
