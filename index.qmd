@@ -2,6 +2,7 @@
 title: "Wound evolution"
 execute:
   echo: false
+  warning: false
 format:
   html:
     theme: yeti
@@ -11,8 +12,11 @@ format:
 
 ```{r, setup}
 #| include: false
-
-rgl::setupKnitr(autoprint = TRUE) 
+library(rgl)
+# Include the rgl graphic into the HTML page
+setupKnitr(autoprint = TRUE) 
+# Suppress each separate window for rgl graphics
+options(rgl.useNULL = TRUE) 
 
 # Global variables
 patient = "EC00286"
@@ -33,7 +37,6 @@ patient1_ViewsNames = ViewsNames[-(1:5)]
 
 ```{r, load-ply-files-into-rgl}
 #| message: false
-#| warning: false
 #| include: false
 m3d <- list()
 for (i in 1:length(patient1_FolderViews)){
@@ -46,7 +49,6 @@ m3d[[2]]$material$alpha <- 0.6
 
 rgl::close3d()
 
-library(rgl)
 library(magrittr)
 
 # Open and load geometries
@@ -78,7 +80,6 @@ widget2
 ## plyLoadR similar graphic
 
 ```{r}
-#| warning: false
 # Load the same ply files, now via the plyLoadR library
 library(plyLoadR)
 
@@ -87,9 +88,9 @@ plyLoadR(
   localFiles = TRUE,
   elementId = "plyLoadRGraphic1",
   settings = list(
-    isTransparent = list(TRUE, TRUE),
+    isTransparent = TRUE,
     opacity = list(0.4, 0.6),
-    isWireframe = list(FALSE, FALSE)
+    isWireframe = FALSE
   )
 )
 ```
@@ -97,153 +98,21 @@ plyLoadR(
 ## plyLoadR: Mesh evolution
 
 ```{r}
-#| warning: false
 plyLoadR(
   paths = paste0(Mainpath, "/", patient0_FolderViews),
   localFiles = TRUE,
   elementId = "plyLoadRGraphic2",
-  settings = list(isTransparent = as.list(rep(TRUE, 5)))
+  settings = list(
+    isTransparent = TRUE,
+    opacity = 0,
+    camera = list(position = list(30, 0, 25)),
+    toggleWidgets = TRUE,
+    toggleLabels = c(
+      "2020-07-09", "2020-07-17",
+      "2020-07-24", "2020-07-30", "2020-08-06"
+    )
+  )
 )
-```
-
-<!-- Opacity controls -->
-```{css}
-#opacity-toggle {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  margin-bottom: 1em;
-}
-
-#slide {
-  width: 100%;
-  margin-top: 20px;
-}
-
-.rangeWrapper {
-  display: flex;
-  justify-content: space-between;
-}
-
-p.rangeLabel {
-  font-family: "Arial", sans-serif;
-  padding: 7.5px;
-  margin: 5px 0;
-  background: rgb(136,136,136);
-  font-size: 15px;
-  line-height: 20px;
-}
-
-p.rangeLabel:hover {
-  background-color: rgb(3, 82, 3);
-  color: #fff;
-  cursor: pointer;
-}
-
-p.rangeLabel.selected {
-  background-color: rgb(8, 173, 8);
-  color: rgb(255,255,255);
-}
-```
-
-<!-- Visibility toggle buttons -->
-```{r, add-mesh-buttons}
-#| results: asis
-
-non_auto <- paste0(
-  '<input id="slide" type="range" min="1" max="',
-  length(patient0_FolderViews),
-  '" step="0.05" value="1" />\n',
-  '<div class="rangeWrapper">\n',
-  '  <p class="rangeLabel selected" data-child="1">',
-  patient0_ViewsNames[1],
-  '  </p>\n'
-)
-
-select_buttons <- function(n_of_mesh_left = length(patient0_FolderViews)) {
-  if (n_of_mesh_left > 0 ) {
-    return(paste0(
-      '<p class="rangeLabel" data-child="',
-      1 + length(patient0_FolderViews) - n_of_mesh_left, '">',
-      patient0_ViewsNames[1 + length(patient0_FolderViews) - n_of_mesh_left],
-      '</p>\n',
-      select_buttons(n_of_mesh_left - 1)
-    ))
-  } else {
-    return('\n')
-  }
-}
-
-buttons_code <- select_buttons(length(patient0_FolderViews) - 1)
-
-cat(
-  non_auto,
-  buttons_code,
-  '</div>\n',
-  sep = ""
-)
-```
-
-```{js, opacity-controls-interactivity}
-let opacityToggle, slide, triangleIds;
-
-document.addEventListener('DOMContentLoaded', function () {
-  // Get slider
-  slide = document.querySelector("#slide");
-
-  // Update opacity in graphics when slider changes
-  slide.addEventListener("input", function () {
-    updateOpacity();
-
-    let value = String(Math.round(slide.value));
-    
-    document.querySelectorAll('p.rangeLabel').forEach(
-      el => el.classList.remove("selected")
-    );
-    document.querySelector("p.rangeLabel[data-child='" + value + "']")
-      .classList.add('selected');
-  });
-
-  document.querySelectorAll('p.rangeLabel').forEach(item => {
-    item.addEventListener('click', function () {
-      slide.value = this.dataset.child;
-      // Trigger input event for the slider
-      slide.dispatchEvent(new Event('input', {bubbles:true}));
-    })
-  })
-});
-
-// Update opacity values
-function updateOpacity () {
-  let opacidad = slide.value;
-  triangleIds.forEach( (plyMesh, index) => {
-    if ( (index <= opacidad) && (opacidad <= index + 2) ) {
-      plyMesh.material.opacity = Math.abs(Math.abs(opacidad - index - 1) - 1);
-    } else {
-      plyMesh.material.opacity = 0;
-    }
-  })
-
-  // Reorder which mesh gets rendered last
-  triangleIds.forEach(plyMesh => plyMesh.renderOrder = 2);
-  triangleIds[Math.floor(opacidad) - 1].renderOrder = 1;
-  triangleIds[Math.ceil(opacidad) - 1].renderOrder = 1;
-  triangleIds[Math.round(opacidad) - 1].renderOrder = 0;
-}
-
-let plyLoadComplete = setInterval(
-  function () {
-    // Get every mesth type object
-    triangleIds = plyLoadRGraphic2.scene.children.filter(
-      obj => obj.type === "Mesh"
-    );
-
-    if (triangleIds.length === 5) {
-      updateOpacity();
-      clearInterval(plyLoadComplete);
-    }
-  }, 2000
-);
 ```
 
 <br>
