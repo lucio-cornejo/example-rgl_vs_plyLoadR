@@ -27,12 +27,11 @@ FolderViews = dir(Mainpath)
 ViewsNames = stringr::str_sub(FolderViews, start = 10, end = -5L)
 
 
-n <- 3
-patient0_FolderViews = FolderViews[1:n]
-patient0_ViewsNames = ViewsNames[1:n]
+patient0_FolderViews = FolderViews[1:5][1:3]
+patient0_ViewsNames = ViewsNames[1:5][1:3]
 
-patient1_FolderViews = FolderViews[-(1:n)]
-patient1_ViewsNames = ViewsNames[-(1:n)]
+patient1_FolderViews = FolderViews[-(1:5)][1:2]
+patient1_ViewsNames = ViewsNames[-(1:5)][1:2]
 ```
 
 ## rgl graphic
