@@ -26,11 +26,13 @@ Mainpath = "./ply-files"
 FolderViews = dir(Mainpath)
 ViewsNames = stringr::str_sub(FolderViews, start = 10, end = -5L)
 
-patient0_FolderViews = FolderViews[1:5]
-patient0_ViewsNames = ViewsNames[1:5]
 
-patient1_FolderViews = FolderViews[-(1:5)]
-patient1_ViewsNames = ViewsNames[-(1:5)]
+n <- 3
+patient0_FolderViews = FolderViews[1:n]
+patient0_ViewsNames = ViewsNames[1:n]
+
+patient1_FolderViews = FolderViews[-(1:n)]
+patient1_ViewsNames = ViewsNames[-(1:n)]
 ```
 
 ## rgl graphic
@@ -39,7 +41,7 @@ patient1_ViewsNames = ViewsNames[-(1:5)]
 #| message: false
 #| include: false
 m3d <- list()
-for (i in 1:length(patient1_FolderViews)){
+for (i in 1:length(patient1_FolderViews)) {
   m3d[[i]] <- Rvcg::vcgPlyRead(paste0(Mainpath, "/", patient1_FolderViews[i]))  
 }
 
@@ -87,11 +89,9 @@ plyLoadR(
   paths = paste0(Mainpath, "/", patient1_FolderViews),
   localFiles = TRUE,
   elementId = "plyLoadRGraphic1",
-  settings = list(
-    isTransparent = TRUE,
-    opacity = list(0.4, 0.6),
-    isWireframe = FALSE
-  )
+  isTransparent = TRUE,
+  opacity = list(0.4, 0.6),
+  isWireframe = FALSE
 )
 ```
 
@@ -102,15 +102,12 @@ plyLoadR(
   paths = paste0(Mainpath, "/", patient0_FolderViews),
   localFiles = TRUE,
   elementId = "plyLoadRGraphic2",
-  settings = list(
-    isTransparent = TRUE,
-    opacity = 0,
-    camera = list(position = list(30, 0, 25)),
-    toggleWidgets = TRUE,
-    toggleLabels = c(
-      "2020-07-09", "2020-07-17",
-      "2020-07-24", "2020-07-30", "2020-08-06"
-    )
+  isTransparent = TRUE,
+  opacity = 0.5,
+  camera = list(position = list(30, 0, 25)),
+  toggleWidgets = TRUE,
+  toggleLabels = c(
+    "2020-07-09", "2020-07-17", "2020-07-24"
   )
 )
 ```
