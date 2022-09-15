@@ -22,10 +22,7 @@ setupKnitr(autoprint = TRUE)
 # Suppress each separate window for rgl graphics
 options(rgl.useNULL = TRUE) 
 
-# Global variables
-patient = "EC00286"
-hospital = "VD"
-
+# Paths to the relevant ply files
 Mainpath = "./ply-files"
 FolderViews = dir(Mainpath)
 ViewsNames = stringr::str_sub(FolderViews, start = 10, end = -5L)

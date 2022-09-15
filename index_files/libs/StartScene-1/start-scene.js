@@ -37,7 +37,21 @@ function loadPLY(x, index, identifier) {
 function init(x, identifier) {
   window[identifier] = {};
   const widgetDiv = document.getElementById(identifier);
-  
+
+  /*
+    Delete possible HTML elements repetitions due to
+    an issue when using plyLoadR() in a Shiny app
+  */
+  // Remove extra canvas elements
+  while (widgetDiv.firstElementChild) {
+    widgetDiv.removeChild(widgetDiv.firstElementChild);
+  }
+  // Remove extra inputs of type range or button
+  const widgetDivContainer = widgetDiv.parentNode;
+  while (widgetDivContainer.childElementCount > 1) {
+    widgetDivContainer.removeChild(widgetDivContainer.lastElementChild);
+  }
+
   // renderer
   renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setPixelRatio(window.devicePixelRatio);
@@ -93,19 +107,18 @@ function init(x, identifier) {
       // Insert slider for opacity
       let opacityControlsHTML = 
         '<input id="' + identifier + 'Slider'
-        + '" class="opacity-slider" type="range"'
+        + '" class="opacity-slider plyLoadR" type="range"'
         + 'min="1" ' + `max=${x.paths.length}` 
         + ' step="0.05" value="1" >\n';
       
       // Insert div for opacity buttons
       opacityControlsHTML += 
-        '<div class="opacity-buttons-section">\n'
+        '<div class="opacity-buttons-section plyLoadR">\n'
 
       // Set labels for opacity buttons
       let toggleLabels = [...Array(x.paths.length).keys()];
-      if (x.toggleLabels) {
-        toggleLabels = x.toggleLabels;
-      }
+      if (x.toggleLabels) { toggleLabels = x.toggleLabels; }
+
       opacityControlsHTML +=
         '  <input type="button" class="opacity-button selected"'
         + ' data-child="1' + '" value="' 
@@ -122,10 +135,15 @@ function init(x, identifier) {
       opacityControlsHTML += '</div>\n';
 
       widgetDiv.parentNode.insertAdjacentHTML(
-        "beforeend",
-        opacityControlsHTML
+        "beforeend", opacityControlsHTML
       );
 
+      // Hide opacity slider if there is only one ply file
+      if (x.paths.length === 1) {
+        document.getElementById(identifier + "Slider")
+          .style.display = "none";
+      }
+      
       activateOpacityControls = true;
     }
   }
