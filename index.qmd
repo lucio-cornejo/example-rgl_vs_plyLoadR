@@ -65,7 +65,7 @@ library(magrittr)
 # Open and load geometries
 rgl::open3d()
 bg3d(color = "gray10")
-rgl.material(back = "culled", lit = FALSE, shininess = 90)
+rgl.material(back = "culled", lit = FALSE)
 
 vistas3D <- list()
 for(i in 1:length(patient1_FolderViews)) {
@@ -103,7 +103,10 @@ plyLoadR(
   elementId = "plyLoadRGraphic1",
   isTransparent = TRUE,
   opacity = list(1, 0.2),
-  isWireframe = FALSE
+  toggleMeshes = list(
+    showEvolution = FALSE,
+    labels = patient1_ViewsNames
+  )
 )
 ```
 
@@ -118,6 +121,8 @@ plyLoadR(
   elementId = "plyLoadRGraphic2",
   isTransparent = TRUE,
   opacity = 0.5,
+  # ::::::::::::::::::::::::::::::::::::
+  # Set camera in a specific 3D location
   camera = list(
     position = list(x = 23.417, y = -8.950, z = 28.593),
     up = list(x = 0.484, y = 0.615, z = 0.621)
@@ -125,8 +130,11 @@ plyLoadR(
   controls = list(
     target = list(x = 1.380, y = 1.561, z = 1.450)
   ),
-  toggleWidgets = TRUE,
-  toggleLabels = c("2020-07-09", "2020-07-17", "2020-07-24")
+  # ::::::::::::::::::::::::::::::::::::
+  toggleMeshes = list(
+    labels = list("2020-07-09", "2020-07-17", "2020-07-24"),
+    showEvolution = TRUE
+  )
 )
 ```
 

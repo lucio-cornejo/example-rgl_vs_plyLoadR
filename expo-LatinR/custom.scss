@@ -1,0 +1,78 @@
+/*-- scss:defaults --*/
+
+// $body-bg: #191919;
+// $body-color: #fff;
+// $link-color: #42affa;
+
+/*-- scss:rules --*/
+
+// Manually center title of first slide
+#title-slide h1 {
+  width: 90vw;
+  margin: 0 0 0 -6rem;
+}
+
+// Style logo in slide's footer section
+img.slide-logo {
+  scale: 3 !important;
+  right: 2.25rem !important;
+  bottom: 1.75rem !important;
+}
+
+// Hide line numbers of code blocks
+code.sourceCode > span > a {
+  visibility: hidden;
+  margin-right: -2.5rem;
+}
+
+.reveal p {
+  text-align: justify;
+}
+
+// Style anchors similar to the usual way
+a {
+  color: blue !important;
+  text-decoration: underline !important;
+}
+
+// Custom slide section
+// Google font: Dancing Script
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap');
+
+.topitop { 
+  top: 0 !important; 
+}
+
+section.title-slide:not(:first-child) h1 {
+  color: crimson;
+  font-family: 'Dancing Script', cursive;
+}
+
+// section:nth-child(4) h1 {
+  // white-space: nowrap; 
+  // margin-left: -12vw;
+// }
+
+.highlight {
+  font-weight: 900;
+  text-decoration: underline;
+}
+
+
+// Fragmented divs
+.standup.current-fragment,
+.rgl-limitation.current-fragment,
+.three-js-advantage.current-fragment,
+.plyLoadR-advantage.current-fragment {
+  visibility: visible;
+  opacity: 1;
+  transition: visibility 750ms ease, opacity 750ms ease;
+}
+.standup:not(.current-fragment),
+.rgl-limitation:not(.current-fragment),
+.three-js-advantage:not(.current-fragment),
+.plyLoadR-advantage:not(.current-fragment) {
+  opacity: 0;
+  visibility: hidden;
+  position: absolute; top: -9999px; left: -9999px;
+}

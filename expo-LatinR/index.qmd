@@ -1,0 +1,191 @@
+---
+title: "plyLoadR, a new htmlwidget for mesh evolution visualization"
+author: |
+  <p style="margin: 5rem 0 0 -8rem; white-space: nowrap; width: 100vw;">
+    Lucio Cornejo, Evelyn Gutierrez,
+    Benjamín Castañeda and Sylvie Treuillet
+  </p>
+format: 
+  revealjs:
+    side: right
+    logo: "LatinR_LOGOS-21.png"
+    theme: [serif, custom.scss]  # serif, sky, night
+    preview-links: true
+    transition: slide
+    background-transition: fade
+---
+
+# Context {.topitop}
+
+::: {.fragment}
+<ul>
+<li>
+[STANDUP](https://www.standupproject.eu/) project
+
+::: {.standup .fragment .fade-in-then-out}
+<strong>Ojectives:</strong>
+<ul>
+<li>Provide additional tools to **detect** hyperthermia.</li>
+<li>Help in the **prevention** of diabetic foot ulcers.</li>
+<li>**Evaluate** ulcer status during its treatment.</li>
+<li>Contribute to the **healing** of diabetic foot ulcer. </li>
+</ul>
+:::
+
+::: {.standup .fragment .fade-in-then-out}
+<strong>Important fact:</strong>
+<p>
+Ulcer and wound therapeutic follow-up involves 
+[periodic visual examination]{.highlight} to monitor the 
+[evolution]{.highlight}
+of its shape and color of the tissues, in order to adapt the treatment. 
+</p>
+:::
+
+</li>
+</ul>
+:::
+
+::: {.notes}
+Mention that the 2D images from such registry via smartphone, 
+will be used to generate a 3D mesh of the wound, saved as a **ply file**.
+:::
+
+# A partial solution in R {.topitop}
+
+<ul>
+<li>
+[rgl](https://mran.microsoft.com/snapshot/2018-04-25/web/packages/rgl/vignettes/rgl.html)
+
+::: {.rgl-limitation .fragment .fade-in-then-out}
+**Limitation** regarding **periodic visual examination**:
+
+[Slow rendering]{.highlight} process of the
+document which contains the rgl scenes.
+
+This is due to rgl inserting the meshes' extensive geometric data 
+into the HTML document which contains the scenes.
+
+[Example](https://plyloadr-rgl-comparison-example.netlify.app/)
+in the line 512 of its source code.
+:::
+
+::: {.rgl-limitation .fragment .fade-in-then-out}
+**Limitation** regarding **evolution monitoring**:
+
+When translucent non lightweight geometries are inserted into an rgl scene, the
+graphic in the resulting HTML page starts to lag considerably, making it unusable.
+
+[Example](https://plyloadr-rgl-comparison-example.netlify.app/#rgl-graphic).
+
+It has already been 
+[documented](http://natverse.org/nat/articles/plotly.html)
+that rgl's main limitation is the 
+rendering of translucent surfaces.
+:::
+
+::: {.rgl-limitation .fragment .fade-in-then-out}
+**Limitation** regarding rgl's user interactivity options:
+
+Not only does rgl's capabilities for the user to interact with
+the graphics or manipulate them are 
+[limited](https://cran.r-project.org/web/packages/rgl/vignettes/WebGL.html),
+rgl's official [documentation](https://dmurdoch.github.io/rgl/rglClass/) 
+for how to manipulate its graphics via JavaScript is quite poor.
+:::
+
+</li>
+</ul>
+
+# An unexpected source of hope {.topitop}
+
+<ul>
+<li>
+**Three.js**, JavaScript's most complete 3D library.
+
+::: {.three-js-advantage .fragment .fade-in-then-out}
+Comparison between rgl's *slow rendering* limitation:
+
+[Multiple meshes in a single scene](https://threejs.org/examples/#webgl_performance_static)
+
+[Loading a heavy file into a scene](https://threejs.org/examples/#webgl_loader_gltf)
+
+[Support for loading ply files into a scene](https://threejs.org/examples/#webgl_loader_ply)
+:::
+
+::: {.three-js-advantage .fragment .fade-in-then-out}
+Comparison between rgl's *laggy translucent graphics* limitation:
+
+[No lag due to translucent graphics](https://threejs.org/examples/#webgl_buffergeometry_rawshader)
+:::
+
+::: {.three-js-advantage .fragment .fade-in-then-out}
+Comparison between rgl's capabilities regarding *user manipulation* 
+of the graphics in a scene:
+
+[Select some region in a mesh](https://gkjohnson.github.io/three-mesh-bvh/example/bundle/collectTriangles.html)
+:::
+
+</li>
+</ul>
+
+# plyLoadR 
+
+- Package created to address the previously described limitations of rgl.
+
+- It was created via the `htmlwidgets` package.
+
+- It is a wrapper of the Three.js library, to be used directly from R.
+
+- Allows for the creation of Three.js scenes, via loading ply files into them.
+
+# plyLoadR's advantages {.smaller}
+
+<br>
+<dl>
+
+::: {.fragment .fade-in}
+<dt>Faster rendering of translucent 3D meshes</dt>
+<dd>
+The proposed pipeline implemented on plyLoadR allows for
+no delay due to semi- or fully transparent graphics.
+</dd>
+<br>
+:::
+
+::: {.fragment .fade-in}
+<dt>Faster rendering overall</dt>
+<dd>
+When recreating a rgl scene with plyLoadR, the rendering time of the .Rmd or .qmd
+file decreases significantly; in some cases, from 5 minutes, to 10 seconds.
+</dd>
+<br>
+:::
+
+::: {.fragment .fade-in}
+<dt>Greater amount of tools for interactive graphics</dt>
+<dd>
+plyLoadR graphics can be manipulated with all the default tools of the Three.js
+library, the most powerful JavaScript 3D graphics library in existence.
+</dd>
+:::
+
+</dl>
+
+# Use cases 
+
+Three different scenes are shown in this 
+[website](https://plyloadr-rgl-comparison-example.netlify.app/)
+to provide an example of the advantages of
+the proposed library, plyLoadR, over rgl. 
+
+The 3D meshes displayed belong to the STANDUP
+project, in which foot wounds of diabetic patients were 3D scanned with photos from
+portable devices in order to be used for wound assessment.
+
+
+
+
+
+
+
