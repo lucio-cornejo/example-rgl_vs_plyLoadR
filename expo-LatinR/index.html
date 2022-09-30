@@ -22,6 +22,70 @@
     div.column{display: inline-block; vertical-align: top; width: 50%;}
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
     ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+      }
+    pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+    div.sourceCode
+      { color: #f8f8f2; background-color: #282a36; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #f8f8f2; } /* Normal */
+    code span.al { color: #ff5555; font-weight: bold; } /* Alert */
+    code span.an { color: #ff79c6; } /* Annotation */
+    code span.at { color: #ff79c6; } /* Attribute */
+    code span.bn { color: #bd93f9; } /* BaseN */
+    code span.bu { color: #8be9fd; } /* BuiltIn */
+    code span.cf { color: #ff79c6; } /* ControlFlow */
+    code span.ch { color: #f1fa8c; } /* Char */
+    code span.cn { color: #bd93f9; font-weight: bold; } /* Constant */
+    code span.co { color: #6272a4; } /* Comment */
+    code span.cv { color: #8be9fd; } /* CommentVar */
+    code span.do { color: #ffb86c; } /* Documentation */
+    code span.dt { color: #8be9fd; font-style: italic; } /* DataType */
+    code span.dv { color: #bd93f9; } /* DecVal */
+    code span.er { color: #ff5555; text-decoration: underline; } /* Error */
+    code span.ex { color: #8be9fd; } /* Extension */
+    code span.fl { color: #bd93f9; } /* Float */
+    code span.fu { color: #50fa7b; } /* Function */
+    code span.im { color: #ff79c6; } /* Import */
+    code span.in { color: #f1fa8c; } /* Information */
+    code span.kw { color: #ff79c6; } /* Keyword */
+    code span.op { color: #f8f8f2; } /* Operator */
+    code span.ot { color: #50fa7b; } /* Other */
+    code span.pp { color: #ff79c6; } /* Preprocessor */
+    code span.re { color: #8be9fd; } /* RegionMarker */
+    code span.sc { color: #ff79c6; } /* SpecialChar */
+    code span.ss { color: #f1fa8c; } /* SpecialString */
+    code span.st { color: #f1fa8c; } /* String */
+    code span.va { color: #8be9fd; } /* Variable */
+    code span.vs { color: #f1fa8c; } /* VerbatimString */
+    code span.wa { color: #ff5555; } /* Warning */
   </style>
   <link rel="stylesheet" href="index_files/libs/revealjs/dist/theme/quarto.css" id="theme">
   <link href="index_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
@@ -312,6 +376,17 @@
       margin-right: 0; 
     }
   </style>
+  <script src="index_files/libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+  <script src="index_files/libs/three-134/three.js"></script>
+  <script src="index_files/libs/loadPLY-134/PLYLoader.js"></script>
+  <script src="index_files/libs/TrackballControls-134/TrackballControls.js"></script>
+  <script src="index_files/libs/StartScene-1/start-scene.js"></script>
+  <link href="index_files/libs/OpacityControls-1/styles.css" rel="stylesheet">
+  <script src="index_files/libs/OpacityControls-1/script.js"></script>
+  <script src="index_files/libs/SelectionBox-134/SelectionBox.js"></script>
+  <script src="index_files/libs/SelectionBoxHelper-134/SelectionHelper.js"></script>
+  <link href="index_files/libs/SelectionBoxStyle-134/styles.css" rel="stylesheet">
+  <script src="index_files/libs/plyLoadR-binding-0.0.0.9000/plyLoadR.js"></script>
 </head>
 <body class="quarto-light">
   <div class="reveal">
@@ -324,18 +399,30 @@ Lucio Cornejo, Evelyn Gutierrez, Benjamín Castañeda and Sylvie Treuillet
 </p><p></p>
 </section>
 
-<section id="context" class="title-slide slide level1 topitop center">
-<h1>Context</h1>
-<div class="fragment">
+<section id="how-was-r-required" class="title-slide slide level1 center">
+<h1>How was R required?</h1>
+<div class="r-stack">
+<p><img data-src="media/ply-file.png" class="fragment fade-in-then-out"></p>
+<img data-src="media/ply-loaded.png" class="fragment fade-in r-stretch">
+<p><img data-src="media/r-magic.png" class="fragment fade-in-then-out"></p>
+</div>
+</section>
+
+<section>
+<section id="some-basic-context" class="title-slide slide level1 center">
+<h1>Some basic context</h1>
+
+</section>
+<section id="standup-project" class="slide level2">
+<h2><a href="https://www.standupproject.eu/">STANDUP</a> project</h2>
+<p style="margin-bottom: -60px;">
+&nbsp;
+</p>
+<div class="columns" style="display: flex;">
+<div class="column" style="border-right: 0.1rem dashed;">
+<div class="fragment fade-right">
+<strong>Objectives:</strong>
 <ul>
-<li>
-<p><a href="https://www.standupproject.eu/">STANDUP</a> project</p>
-<div class="standup fragment fade-in-then-out">
-<strong>Ojectives:</strong>
-<ul>
-<li>
-Provide additional tools to <strong>detect</strong> hyperthermia.
-</li>
 <li>
 Help in the <strong>prevention</strong> of diabetic foot ulcers.
 </li>
@@ -347,17 +434,62 @@ Contribute to the <strong>healing</strong> of diabetic foot ulcer.
 </li>
 </ul>
 </div>
-<div class="standup fragment fade-in-then-out">
+</div><div class="column">
+<div class="fragment fade-left">
 <strong>Important fact:</strong>
-<p>
-Ulcer and wound therapeutic follow-up involves <span class="highlight">periodic visual examination</span> to monitor the <span class="highlight">evolution</span> of its shape and color of the tissues, in order to adapt the treatment.
+<p style="text-align: left;">
+In order to adapt the medical treatment, ulcer and wound therapeutic follow-up involve <span class="highlight">periodic visual examination</span> to monitor the <span class="highlight">evolution</span> of the wound’s shape and color of the tissues.
 </p>
 </div>
-</li>
+</div>
+</div>
+</section>
+<section id="how-we-generate-ply-files" class="slide level2">
+<h2>How we generate ply files</h2>
+<div style="display: flex; flex-direction: row; align-items: center; gap: 2rem; margin-left: -10rem;">
+<div class="fragment">
+<img data-src="media/smartphone.jpg" class="fade-in r-stretch">
+</div>
+<div class="fragment">
+<img data-src="media/ply-loaded-thermal.png" class="fade-in r-stretch">
+</div>
+<div class="fragment">
+<img data-src="media/ply-loaded.png" class="fade-in r-stretch">
+</div>
+</div>
+</section></section>
+<section>
+<section id="a-partial-solution-in-r" class="title-slide slide level1 center">
+<h1>A partial solution in R</h1>
+
+</section>
+<section id="rgl" class="slide level2 r-stretch">
+<h2><a href="https://mran.microsoft.com/snapshot/2018-04-25/web/packages/rgl/vignettes/rgl.html">rgl</a></h2>
+<p><br></p>
+<div>
+<ul>
+<li class="fragment"><p>Can R’s most popular 3D library solve our problem?</p></li>
+<li class="fragment"><p><span style="font-size: 5rem; color: crimson;">No</span> .</p></li>
+<li class="fragment"><p>rgl is a great tool for <span class="highlight">creating</span> 3D plots in R, but not for <span class="highlight">loading complex geometries</span>.</p></li>
+<li class="fragment"><p>The <strong>plyLoadR</strong> package was created to address the <span class="highlight">limitations</span> of rgl that we encountered in our project.</p></li>
 </ul>
 </div>
+</section></section>
+<section>
+<section id="plyloadr" class="title-slide slide level1 center">
+<h1>plyLoadR</h1>
+
+</section>
+<section id="a-new-widget" class="slide level2">
+<h2>A new widget</h2>
+<p><br></p>
+<ul>
+<li><p>Created via the <code>htmlwidgets</code> package.</p></li>
+<li><p>Wrapper of JavaScript’s most complete 3D library, <a href="https://threejs.org/examples/#webgl_animation_skinning_ik">Three.js</a>, in order to use it directly from R.</p></li>
+<li><p>Allows for the creation of Three.js scenes, via loading ply files into them.</p></li>
+</ul>
 <aside class="notes">
-<p>Mention that the 2D images from such registry via smartphone, will be used to generate a 3D mesh of the wound, saved as a <strong>ply file</strong>.</p>
+<p>Open Three.js link in a new window, as soon as this slide is revealed.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -369,105 +501,270 @@ Ulcer and wound therapeutic follow-up involves <span class="highlight">periodic 
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-</section>
+</section></section>
+<section>
+<section id="plyloadrs-advantages-over-rgl" class="title-slide slide level1 center" data-background-color="black">
+<h1>plyLoadR’s advantages over rgl</h1>
 
-<section id="a-partial-solution-in-r" class="title-slide slide level1 topitop center">
-<h1>A partial solution in R</h1>
-<ul>
-<li>
-<p><a href="https://mran.microsoft.com/snapshot/2018-04-25/web/packages/rgl/vignettes/rgl.html">rgl</a></p>
-<div class="rgl-limitation fragment fade-in-then-out">
-<p><strong>Limitation</strong> regarding <strong>periodic visual examination</strong>:</p>
-<p><span class="highlight">Slow rendering</span> process of the document which contains the rgl scenes.</p>
-<p>This is due to rgl inserting the meshes’ extensive geometric data into the HTML document which contains the scenes.</p>
-<p><a href="https://plyloadr-rgl-comparison-example.netlify.app/">Example</a> in the line 512 of its source code.</p>
-</div>
-<div class="rgl-limitation fragment fade-in-then-out">
-<p><strong>Limitation</strong> regarding <strong>evolution monitoring</strong>:</p>
-<p>When translucent non lightweight geometries are inserted into an rgl scene, the graphic in the resulting HTML page starts to lag considerably, making it unusable.</p>
-<p><a href="https://plyloadr-rgl-comparison-example.netlify.app/#rgl-graphic">Example</a>.</p>
-<p>It has already been <a href="http://natverse.org/nat/articles/plotly.html">documented</a> that rgl’s main limitation is the rendering of translucent surfaces.</p>
-</div>
-<div class="rgl-limitation fragment fade-in-then-out">
-<p><strong>Limitation</strong> regarding rgl’s user interactivity options:</p>
-<p>Not only does rgl’s capabilities for the user to interact with the graphics or manipulate them are <a href="https://cran.r-project.org/web/packages/rgl/vignettes/WebGL.html">limited</a>, rgl’s official <a href="https://dmurdoch.github.io/rgl/rglClass/">documentation</a> for how to manipulate its graphics via JavaScript is quite poor.</p>
-</div>
-</li>
-</ul>
 </section>
-
-<section id="an-unexpected-source-of-hope" class="title-slide slide level1 topitop center">
-<h1>An unexpected source of hope</h1>
-<ul>
-<li>
-<p><strong>Three.js</strong>, JavaScript’s most complete 3D library.</p>
-<div class="three-js-advantage fragment fade-in-then-out">
-<p>Comparison between rgl’s <em>slow rendering</em> limitation:</p>
-<p><a href="https://threejs.org/examples/#webgl_performance_static">Multiple meshes in a single scene</a></p>
-<p><a href="https://threejs.org/examples/#webgl_loader_gltf">Loading a heavy file into a scene</a></p>
-<p><a href="https://threejs.org/examples/#webgl_loader_ply">Support for loading ply files into a scene</a></p>
-</div>
-<div class="three-js-advantage fragment fade-in-then-out">
-<p>Comparison between rgl’s <em>laggy translucent graphics</em> limitation:</p>
-<p><a href="https://threejs.org/examples/#webgl_buffergeometry_rawshader">No lag due to translucent graphics</a></p>
-</div>
-<div class="three-js-advantage fragment fade-in-then-out">
-<p>Comparison between rgl’s capabilities regarding <em>user manipulation</em> of the graphics in a scene:</p>
-<p><a href="https://gkjohnson.github.io/three-mesh-bvh/example/bundle/collectTriangles.html">Select some region in a mesh</a></p>
-</div>
-</li>
-</ul>
-</section>
-
-<section id="plyloadr" class="title-slide slide level1 center">
-<h1>plyLoadR</h1>
-<ul>
-<li><p>Package created to address the previously described limitations of rgl.</p></li>
-<li><p>It was created via the <code>htmlwidgets</code> package.</p></li>
-<li><p>It is a wrapper of the Three.js library, to be used directly from R.</p></li>
-<li><p>Allows for the creation of Three.js scenes, via loading ply files into them.</p></li>
-</ul>
-</section>
-
-<section id="plyloadrs-advantages" class="title-slide slide level1 smaller center">
-<h1>plyLoadR’s advantages</h1>
-<br>
-<dl>
-<div class="fragment fade-in">
-<dt>
-Faster rendering of translucent 3D meshes
-</dt>
-<dd>
-The proposed pipeline implemented on plyLoadR allows for no delay due to semi- or fully transparent graphics.
-</dd>
+<section id="lagless-support-for-translucent-meshes" class="slide level2 smaller">
+<h2>Lagless support for translucent meshes</h2>
 <p><br></p>
+<div class="columns" style="display: flex;">
+<div class="column" style="border-right: 0.1rem dashed;">
+<p><span class="rgl-limitation">rgl limitation</span></p>
+<div class="fragment fade-right">
+<p><br> - rgl + <strong>lightweight</strong> translucent geometry = <strong>No lag</strong></p>
 </div>
-<div class="fragment fade-in">
-<dt>
-Faster rendering overall
-</dt>
-<dd>
-When recreating a rgl scene with plyLoadR, the rendering time of the .Rmd or .qmd file decreases significantly; in some cases, from 5 minutes, to 10 seconds.
-</dd>
+<div class="fragment fade-right">
+<p><br> - rgl + <strong>heavy/complex</strong> translucent geometry = <strong>Lag</strong></p>
+</div>
+</div><div class="column">
+<p><span class="plyLoadR-solution">plyLoadR’s solution</span></p>
+<div class="fragment fade-left" style="font-size: 2rem;">
+<p><br> - Translucent graphics loaded via plyLoadR<br>
+generate <strong>no lag</strong> whatsoever.</p>
+</div>
+</div>
+</div>
+<p><br> <br> <br> <br></p>
+<p><span style="display: flex; justify-content: center; font-size: 3rem;"><a href="https://plyloadr-rgl-comparison-example.netlify.app/#rgl-graphic">Example</a></span></p>
+</section>
+<section id="faster-rendering-of-scenes" class="slide level2 smaller">
+<h2>Faster rendering of scenes</h2>
 <p><br></p>
+<div class="columns" style="display: flex;">
+<div class="column" style="border-right: 0.1rem dashed;">
+<p><span class="rgl-limitation">rgl limitation</span></p>
+<div class="fragment fade-right">
+<p><br> - rgl use in Quarto or R Markdown files <strong>increases</strong> the document’s <strong>rendering time</strong>.</p>
 </div>
-<div class="fragment fade-in">
-<dt>
-Greater amount of tools for interactive graphics
-</dt>
-<dd>
-plyLoadR graphics can be manipulated with all the default tools of the Three.js library, the most powerful JavaScript 3D graphics library in existence.
-</dd>
+<div class="fragment fade-right">
+<p><br> - <strong>Slow loading</strong> of websites containing heavy rgl scenes.</p>
 </div>
-</dl>
+</div><div class="column">
+<p><span class="plyLoadR-solution">plyLoadR’s solution</span></p>
+<div class="fragment fade-left">
+<p><br> - plyLoadR significantly <strong>reduces</strong> <em>rendering time</em> and <em>HTML output size</em> (KB).</p>
+</div>
+<div class="fragment fade-left">
+<p><br> - In the previous example shown, after rendering in different documents the rgl and plyLoadR similar scenes, the rendering time decreased from <strong>50 seconds to 10 seconds</strong>, and the size of the output HTML page approximately <em>shrank</em> from <strong>18000 KB to 10KB</strong>, producing a <strong>faster page load</strong>.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="greater-user-interactivity" class="slide level2 smaller">
+<h2>Greater user interactivity</h2>
+<p><br></p>
+<div class="columns" style="display: flex;">
+<div class="column" style="border-right: 0.1rem dashed;">
+<p><span class="rgl-limitation">rgl limitation</span></p>
+<div class="fragment fade-right">
+<p><br> - <strong>Very limited</strong> capabilities for <strong>user interaction</strong> with the scene.</p>
+</div>
+<div class="fragment fade-right">
+<p><br> - <strong>Deficient</strong> official <a href="https://cran.r-project.org/web/packages/rgl/vignettes/WebGL.html">documentation</a> of such user interaction capabilities.</p>
+</div>
+</div><div class="column">
+<p><span class="plyLoadR-solution">plyLoadR’s solution</span></p>
+<div class="fragment fade-left" style="font-size: 2rem;">
+<p><br> - plyLoadR scenes can be manipulated with all the default tools of Three.js, the <strong>most complete</strong> JavaScript 3D graphics library in existence.</p>
+</div>
+</div>
+</div>
+</section></section>
+<section>
+<section id="the-plyloadr-function" class="title-slide slide level1 center" data-background-color="black">
+<h1>The <code>plyLoadR</code> function</h1>
+
+</section>
+<section id="section" class="slide level2" data-auto-animate="true">
+<h2 data-id="quarto-animate-title"></h2>
+<div class="cell columns column-output-location">
+<div class="column">
+<div class="sourceCode cell-code" id="cb1" data-code-line-numbers="1,5|2|3|4"><pre class="sourceCode numberSource r number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode r hljs"><span id="cb1-1" class="hljs-ln-code"><a href="#cb1-1"></a>plyLoadR<span class="sc">::</span><span class="fu">plyLoadR</span>(</span>
+<span id="cb1-2" class="hljs-ln-code"><a href="#cb1-2"></a>  <span class="at">paths =</span> <span class="st">"./ply-files/2020-07-09.ply"</span>,</span>
+<span id="cb1-3" class="hljs-ln-code"><a href="#cb1-3"></a>  <span class="at">localFiles =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb1-4" class="hljs-ln-code"><a href="#cb1-4"></a>  <span class="at">elementId =</span> <span class="st">"model"</span></span>
+<span id="cb1-5" class="hljs-ln-code"><a href="#cb1-5"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div><div class="column fragment">
+<div class="cell-output-display">
+<div>
+<div id="model" style="width:100%;height:65vh;" class="plyLoadR html-widget" width="100%" height="65vh"></div>
+</div>
+<script type="application/json" data-for="model">{"x":{"paths":["./ply-files/2020-07-09.ply"],"isWireframe":[false],"isTransparent":[false],"opacity":[1],"camera":null,"controls":null,"toggleMeshes":null,"showLoadingProgress":false},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</div>
+</section>
+<section id="section-1" class="slide level2" data-auto-animate="true">
+<h2 data-id="quarto-animate-title"></h2>
+<div class="cell columns column-output-location">
+<div class="column">
+<div class="sourceCode cell-code" id="cb2" data-code-line-numbers="6|2-5|7"><pre class="sourceCode numberSource r number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode r hljs"><span id="cb2-1" class="hljs-ln-code"><a href="#cb2-1"></a>plyLoadR<span class="sc">::</span><span class="fu">plyLoadR</span>(</span>
+<span id="cb2-2" class="hljs-ln-code"><a href="#cb2-2"></a>  <span class="at">paths =</span> <span class="fu">list</span>(</span>
+<span id="cb2-3" class="hljs-ln-code"><a href="#cb2-3"></a>    <span class="st">"C:/Users/HP/Desktop/geo-01.ply"</span>,</span>
+<span id="cb2-4" class="hljs-ln-code"><a href="#cb2-4"></a>    <span class="st">"C:/Users/HP/Desktop/geo-02.ply"</span></span>
+<span id="cb2-5" class="hljs-ln-code"><a href="#cb2-5"></a>  ),</span>
+<span id="cb2-6" class="hljs-ln-code"><a href="#cb2-6"></a>  <span class="at">localFiles =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb2-7" class="hljs-ln-code"><a href="#cb2-7"></a>  <span class="at">elementId =</span> <span class="st">"model1"</span></span>
+<span id="cb2-8" class="hljs-ln-code"><a href="#cb2-8"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div><div class="column fragment">
+<div class="cell-output-display">
+<div>
+<div id="model1" style="width:100%;height:65vh;" class="plyLoadR html-widget" width="100%" height="65vh"></div>
+</div>
+<script type="application/json" data-for="model1">{"x":{"paths":["ply_local_copies/model1/ply_copy_1/geo-01.ply","ply_local_copies/model1/ply_copy_2/geo-02.ply"],"isWireframe":[false,false],"isTransparent":[false,false],"opacity":[1,1],"camera":null,"controls":null,"toggleMeshes":null,"showLoadingProgress":false},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</div>
+</section>
+<section id="section-2" class="slide level2" data-auto-animate="true">
+<h2 data-id="quarto-animate-title"></h2>
+<div class="cell columns column-output-location">
+<div class="column">
+<div class="sourceCode cell-code" id="cb3" data-code-line-numbers="2-6|7|8|9|10"><pre class="sourceCode numberSource r number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode r hljs"><span id="cb3-1" class="hljs-ln-code"><a href="#cb3-1"></a>plyLoadR<span class="sc">::</span><span class="fu">plyLoadR</span>(</span>
+<span id="cb3-2" class="hljs-ln-code"><a href="#cb3-2"></a>  <span class="at">paths =</span> <span class="fu">list</span>(</span>
+<span id="cb3-3" class="hljs-ln-code"><a href="#cb3-3"></a>    <span class="st">"./ply_local_copies/model1/ply_copy_1/geo-01.ply"</span>,</span>
+<span id="cb3-4" class="hljs-ln-code"><a href="#cb3-4"></a>    <span class="st">"./ply_local_copies/model1/ply_copy_2/geo-02.ply"</span></span>
+<span id="cb3-5" class="hljs-ln-code"><a href="#cb3-5"></a>  ),</span>
+<span id="cb3-6" class="hljs-ln-code"><a href="#cb3-6"></a>  <span class="at">localFiles =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb3-7" class="hljs-ln-code"><a href="#cb3-7"></a>  <span class="at">elementId =</span> <span class="st">"model2"</span>,</span>
+<span id="cb3-8" class="hljs-ln-code"><a href="#cb3-8"></a>  <span class="at">isWireframe =</span> <span class="fu">list</span>(<span class="cn">TRUE</span>, <span class="cn">FALSE</span>),</span>
+<span id="cb3-9" class="hljs-ln-code"><a href="#cb3-9"></a>  <span class="at">isTransparent =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb3-10" class="hljs-ln-code"><a href="#cb3-10"></a>  <span class="at">opacity =</span> <span class="fu">list</span>(<span class="dv">1</span>, <span class="fl">0.5</span>)</span>
+<span id="cb3-11" class="hljs-ln-code"><a href="#cb3-11"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div><div class="column fragment">
+<div class="cell-output-display">
+<div>
+<div id="model2" style="width:100%;height:65vh;" class="plyLoadR html-widget" width="100%" height="65vh"></div>
+</div>
+<script type="application/json" data-for="model2">{"x":{"paths":["./ply_local_copies/model1/ply_copy_1/geo-01.ply","./ply_local_copies/model1/ply_copy_2/geo-02.ply"],"isWireframe":[true,false],"isTransparent":[true,true],"opacity":[1,0.5],"camera":null,"controls":null,"toggleMeshes":null,"showLoadingProgress":false},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</div>
+</section>
+<section id="section-3" class="slide level2" data-auto-animate="true">
+<h2 data-id="quarto-animate-title"></h2>
+<div class="cell columns column-output-location">
+<div class="column">
+<div class="sourceCode cell-code" id="cb4" data-code-line-numbers="2-7|8,14|9|10-13"><pre class="sourceCode numberSource r number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode r hljs"><span id="cb4-1" class="hljs-ln-code"><a href="#cb4-1"></a>plyLoadR<span class="sc">::</span><span class="fu">plyLoadR</span>(</span>
+<span id="cb4-2" class="hljs-ln-code"><a href="#cb4-2"></a>  <span class="at">paths =</span> <span class="fu">list</span>(</span>
+<span id="cb4-3" class="hljs-ln-code"><a href="#cb4-3"></a>    <span class="st">"./ply-files/2020-07-09.ply"</span>,</span>
+<span id="cb4-4" class="hljs-ln-code"><a href="#cb4-4"></a>    <span class="st">"./ply-files/2020-07-24.ply"</span></span>
+<span id="cb4-5" class="hljs-ln-code"><a href="#cb4-5"></a>  ),</span>
+<span id="cb4-6" class="hljs-ln-code"><a href="#cb4-6"></a>  <span class="at">localFiles =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb4-7" class="hljs-ln-code"><a href="#cb4-7"></a>  <span class="at">elementId =</span> <span class="st">"model3"</span>,</span>
+<span id="cb4-8" class="hljs-ln-code"><a href="#cb4-8"></a>  <span class="at">toggleMeshes =</span> <span class="fu">list</span>(</span>
+<span id="cb4-9" class="hljs-ln-code"><a href="#cb4-9"></a>    <span class="at">showEvolution =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb4-10" class="hljs-ln-code"><a href="#cb4-10"></a>    <span class="at">labels =</span> <span class="fu">list</span>(</span>
+<span id="cb4-11" class="hljs-ln-code"><a href="#cb4-11"></a>      <span class="st">"2020-07-09"</span>,</span>
+<span id="cb4-12" class="hljs-ln-code"><a href="#cb4-12"></a>      <span class="st">"2020-07-24"</span></span>
+<span id="cb4-13" class="hljs-ln-code"><a href="#cb4-13"></a>    )</span>
+<span id="cb4-14" class="hljs-ln-code"><a href="#cb4-14"></a>  )</span>
+<span id="cb4-15" class="hljs-ln-code"><a href="#cb4-15"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div><div class="column fragment">
+<div class="cell-output-display">
+<div>
+<div id="model3" style="width:100%;height:65vh;" class="plyLoadR html-widget" width="100%" height="65vh"></div>
+</div>
+<script type="application/json" data-for="model3">{"x":{"paths":["./ply-files/2020-07-09.ply","./ply-files/2020-07-24.ply"],"isWireframe":[false,false],"isTransparent":[false,false],"opacity":[1,1],"camera":null,"controls":null,"toggleMeshes":{"showEvolution":false,"labels":["2020-07-09","2020-07-24"]},"showLoadingProgress":false},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</div>
+</section>
+<section id="section-4" class="slide level2" data-auto-animate="true">
+<h2 data-id="quarto-animate-title"></h2>
+<div class="cell columns column-output-location">
+<div class="column">
+<div class="sourceCode cell-code" id="cb5" data-code-line-numbers="2-8,10-14|9|15"><pre class="sourceCode numberSource r number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode r hljs"><span id="cb5-1" class="hljs-ln-code"><a href="#cb5-1"></a>plyLoadR<span class="sc">::</span><span class="fu">plyLoadR</span>(</span>
+<span id="cb5-2" class="hljs-ln-code"><a href="#cb5-2"></a>  <span class="at">paths =</span> <span class="fu">list</span>(</span>
+<span id="cb5-3" class="hljs-ln-code"><a href="#cb5-3"></a>    <span class="st">"./ply-files/2020-07-09.ply"</span>,</span>
+<span id="cb5-4" class="hljs-ln-code"><a href="#cb5-4"></a>    <span class="st">"./ply-files/2020-07-24.ply"</span></span>
+<span id="cb5-5" class="hljs-ln-code"><a href="#cb5-5"></a>  ),</span>
+<span id="cb5-6" class="hljs-ln-code"><a href="#cb5-6"></a>  <span class="at">localFiles =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb5-7" class="hljs-ln-code"><a href="#cb5-7"></a>  <span class="at">elementId =</span> <span class="st">"model4"</span>,</span>
+<span id="cb5-8" class="hljs-ln-code"><a href="#cb5-8"></a>  <span class="at">toggleMeshes =</span> <span class="fu">list</span>(</span>
+<span id="cb5-9" class="hljs-ln-code"><a href="#cb5-9"></a>    <span class="at">showEvolution =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb5-10" class="hljs-ln-code"><a href="#cb5-10"></a>    <span class="at">labels =</span> <span class="fu">list</span>(</span>
+<span id="cb5-11" class="hljs-ln-code"><a href="#cb5-11"></a>      <span class="st">"2020-07-09"</span>,</span>
+<span id="cb5-12" class="hljs-ln-code"><a href="#cb5-12"></a>      <span class="st">"2020-07-24"</span></span>
+<span id="cb5-13" class="hljs-ln-code"><a href="#cb5-13"></a>    )</span>
+<span id="cb5-14" class="hljs-ln-code"><a href="#cb5-14"></a>  ),</span>
+<span id="cb5-15" class="hljs-ln-code"><a href="#cb5-15"></a>  <span class="at">isTransparent =</span> <span class="cn">TRUE</span></span>
+<span id="cb5-16" class="hljs-ln-code"><a href="#cb5-16"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div><div class="column fragment">
+<div class="cell-output-display">
+<div>
+<div id="model4" style="width:100%;height:65vh;" class="plyLoadR html-widget" width="100%" height="65vh"></div>
+</div>
+<script type="application/json" data-for="model4">{"x":{"paths":["./ply-files/2020-07-09.ply","./ply-files/2020-07-24.ply"],"isWireframe":[false,false],"isTransparent":[true,true],"opacity":[1,1],"camera":null,"controls":null,"toggleMeshes":{"showEvolution":true,"labels":["2020-07-09","2020-07-24"]},"showLoadingProgress":false},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</div>
+</section>
+<section id="section-5" class="slide level2" data-auto-animate="true">
+<h2 data-id="quarto-animate-title"></h2>
+<div class="cell columns column-output-location">
+<div class="column">
+<div class="sourceCode cell-code" id="cb6" data-code-line-numbers="2-4|5,16|6-10|11-15|17,23|18-22"><pre class="sourceCode numberSource r number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode r hljs"><span id="cb6-1" class="hljs-ln-code"><a href="#cb6-1"></a>plyLoadR<span class="sc">::</span><span class="fu">plyLoadR</span>(</span>
+<span id="cb6-2" class="hljs-ln-code"><a href="#cb6-2"></a>  <span class="at">paths =</span> <span class="st">"./ply-files/2020-07-09.ply"</span>,</span>
+<span id="cb6-3" class="hljs-ln-code"><a href="#cb6-3"></a>  <span class="at">localFiles =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb6-4" class="hljs-ln-code"><a href="#cb6-4"></a>  <span class="at">elementId =</span> <span class="st">"model5"</span>,</span>
+<span id="cb6-5" class="hljs-ln-code"><a href="#cb6-5"></a>  <span class="at">camera =</span> <span class="fu">list</span>(</span>
+<span id="cb6-6" class="hljs-ln-code"><a href="#cb6-6"></a>    <span class="at">position =</span> <span class="fu">list</span>(</span>
+<span id="cb6-7" class="hljs-ln-code"><a href="#cb6-7"></a>      <span class="at">x =</span> <span class="fl">23.417</span>,</span>
+<span id="cb6-8" class="hljs-ln-code"><a href="#cb6-8"></a>      <span class="at">y =</span> <span class="sc">-</span><span class="fl">8.950</span>,</span>
+<span id="cb6-9" class="hljs-ln-code"><a href="#cb6-9"></a>      <span class="at">z =</span> <span class="fl">28.593</span></span>
+<span id="cb6-10" class="hljs-ln-code"><a href="#cb6-10"></a>    ),</span>
+<span id="cb6-11" class="hljs-ln-code"><a href="#cb6-11"></a>    <span class="at">up =</span> <span class="fu">list</span>(</span>
+<span id="cb6-12" class="hljs-ln-code"><a href="#cb6-12"></a>      <span class="at">x =</span> <span class="fl">0.484</span>,</span>
+<span id="cb6-13" class="hljs-ln-code"><a href="#cb6-13"></a>      <span class="at">y =</span> <span class="fl">0.615</span>,</span>
+<span id="cb6-14" class="hljs-ln-code"><a href="#cb6-14"></a>      <span class="at">z =</span> <span class="fl">0.621</span></span>
+<span id="cb6-15" class="hljs-ln-code"><a href="#cb6-15"></a>    )</span>
+<span id="cb6-16" class="hljs-ln-code"><a href="#cb6-16"></a>  ),</span>
+<span id="cb6-17" class="hljs-ln-code"><a href="#cb6-17"></a>  <span class="at">controls =</span> <span class="fu">list</span>(</span>
+<span id="cb6-18" class="hljs-ln-code"><a href="#cb6-18"></a>    <span class="at">target =</span> <span class="fu">list</span>(</span>
+<span id="cb6-19" class="hljs-ln-code"><a href="#cb6-19"></a>      <span class="at">x =</span> <span class="fl">1.380</span>,</span>
+<span id="cb6-20" class="hljs-ln-code"><a href="#cb6-20"></a>      <span class="at">y =</span> <span class="fl">1.561</span>,</span>
+<span id="cb6-21" class="hljs-ln-code"><a href="#cb6-21"></a>      <span class="at">z =</span> <span class="fl">1.450</span></span>
+<span id="cb6-22" class="hljs-ln-code"><a href="#cb6-22"></a>    )</span>
+<span id="cb6-23" class="hljs-ln-code"><a href="#cb6-23"></a>  )</span>
+<span id="cb6-24" class="hljs-ln-code"><a href="#cb6-24"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div><div class="column fragment">
+<div class="cell-output-display">
+<div>
+<div id="model5" style="width:100%;height:65vh;" class="plyLoadR html-widget" width="100%" height="65vh"></div>
+</div>
+<script type="application/json" data-for="model5">{"x":{"paths":["./ply-files/2020-07-09.ply"],"isWireframe":[false],"isTransparent":[false],"opacity":[1],"camera":{"position":{"x":23.417,"y":-8.95,"z":28.593},"up":{"x":0.484,"y":0.615,"z":0.621}},"controls":{"target":{"x":1.38,"y":1.561,"z":1.45}},"toggleMeshes":null,"showLoadingProgress":false},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</div>
+</section></section>
+<section id="conclusion" class="title-slide slide level1 topitop center" data-background-color="black">
+<h1>Conclusion</h1>
+<p><strong>plyLoadR</strong> is a great tool for:</p>
+<ul>
+<li><p><strong>Loading complex geometries</strong>, stored as ply files, into a website.</p></li>
+<li><p><strong>Rendering translucent geometries</strong> in a 3D scene.</p></li>
+<li><p><strong>Reducing a scene’s rendering time</strong>, producing also <strong>faster page loading</strong>.</p></li>
+<li><p><strong>Creating interactive 3D scenes</strong> with extraordinary user interaction capabilities.</p></li>
+</ul>
 </section>
 
-<section id="use-cases" class="title-slide slide level1 center">
-<h1>Use cases</h1>
-<p>Three different scenes are shown in this <a href="https://plyloadr-rgl-comparison-example.netlify.app/">website</a> to provide an example of the advantages of the proposed library, plyLoadR, over rgl.</p>
-<p>The 3D meshes displayed belong to the STANDUP project, in which foot wounds of diabetic patients were 3D scanned with photos from portable devices in order to be used for wound assessment.</p>
-
-<img src="LatinR_LOGOS-21.png" class="slide-logo r-stretch"><div class="footer footer-default">
+<section id="section-6" class="title-slide slide level1 center" data-background-color="skyblue">
+<h1></h1>
+<div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+<p>Github <a href="https://github.com/lucio-cornejo/plyLoadR/">repository</a> of the <code>plyLoadR</code> package.</p>
+<p><br></p>
+<p><img src="./LatinR_LOGOS-23.png" height="300"></p>
+<p><br></p>
+<h1>
+Thank you!
+</h1>
+</div>
+<p><img src="LatinR_LOGOS-21.png" class="slide-logo"></p>
+<div class="footer footer-default">
 
 </div>
 </section>
@@ -625,7 +922,7 @@ plyLoadR graphics can be manipulated with all the default tools of the Three.js 
         hideCursorTime: 5000,
 
         // Opens links in an iframe preview overlay
-        previewLinks: true,
+        previewLinks: false,
 
         // Transition style (none/fade/slide/convex/concave/zoom)
         transition: 'slide',
@@ -682,6 +979,48 @@ plyLoadR graphics can be manipulated with all the default tools of the Three.js 
         ]
       });
     </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        function fireSlideChanged(previousSlide, currentSlide) {
+
+          // dispatch for htmlwidgets
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for reveal
+        if (window.Reveal) {
+          window.Reveal.addEventListener("slidechanged", function(event) {
+            fireSlideChanged(event.previousSlide, event.currentSlide);
+          });
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
     <script id="quarto-html-after-body" type="application/javascript">
     window.document.addEventListener("DOMContentLoaded", function (event) {
       const toggleBodyColorMode = (bsSheetEl) => {

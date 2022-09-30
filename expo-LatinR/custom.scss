@@ -19,11 +19,13 @@ img.slide-logo {
   bottom: 1.75rem !important;
 }
 
-// Hide line numbers of code blocks
-code.sourceCode > span > a {
-  visibility: hidden;
-  margin-right: -2.5rem;
-}
+/*
+  Hide line numbers of code blocks
+*/
+// code.sourceCode > span > a {
+//   visibility: hidden;
+//   margin-right: -2.5rem;
+// }
 
 .reveal p {
   text-align: justify;
@@ -43,36 +45,95 @@ a {
   top: 0 !important; 
 }
 
-section.title-slide:not(:first-child) h1 {
+section.title-slide h1 {
   color: crimson;
   font-family: 'Dancing Script', cursive;
 }
 
-// section:nth-child(4) h1 {
-  // white-space: nowrap; 
-  // margin-left: -12vw;
-// }
+
+section {
+  &:nth-child(2) h1 {
+    margin-left: -8vw;
+    white-space: nowrap;
+  }
+  &:nth-child(6) h1 {
+    margin-left: -5vw;
+  }
+}
 
 .highlight {
   font-weight: 900;
   text-decoration: underline;
 }
 
-
-// Fragmented divs
-.standup.current-fragment,
-.rgl-limitation.current-fragment,
-.three-js-advantage.current-fragment,
-.plyLoadR-advantage.current-fragment {
+/*
+  Fragmented divs
+*/
+.blur:not(.current-fragment) img {
+  filter: blur(0.5rem);
+}
+.hide-fragment.current-fragment {
   visibility: visible;
   opacity: 1;
   transition: visibility 750ms ease, opacity 750ms ease;
 }
-.standup:not(.current-fragment),
-.rgl-limitation:not(.current-fragment),
-.three-js-advantage:not(.current-fragment),
-.plyLoadR-advantage:not(.current-fragment) {
+.hide-fragment:not(.current-fragment) {
   opacity: 0;
   visibility: hidden;
   position: absolute; top: -9999px; left: -9999px;
+}
+
+/*
+  rgl plyLoadR comparison
+*/
+.rgl-limitation {
+  color: red;
+  font-size: 3rem;
+}
+.plyLoadR-solution {
+  color: blue;
+  font-size: 3rem;
+}
+
+/*
+  plyLoadR advantages
+*/
+#plyloadrs-advantages-over-rgl ~ section {
+  width: 100vw;
+  margin-left: -10vw;
+}
+
+/*
+  Custom columns which contain code
+*/
+.columns:has(div.sourceCode) .column {
+  height: 100vh;
+}
+// plyLoadR code
+.column {
+  pre.sourceCode {
+    height: 100%;
+    overflow: hidden !important
+  }
+  .code.sourceCode {
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+}
+// Hide code comments
+code.sourceCode > span:has(span.co) {
+  display: none;
+}
+// Change color of code line numbers
+code.sourceCode > span > a {
+  color: white !important;
+}
+// plyLoadR output
+.column:has(canvas) {
+  display: flex;
+  align-items: center;
+  
+  .cell-output-display {
+    overflow: hidden;
+  }
 }

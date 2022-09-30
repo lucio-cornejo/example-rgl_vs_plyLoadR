@@ -5,187 +5,388 @@ author: |
     Lucio Cornejo, Evelyn Gutierrez,
     Benjamín Castañeda and Sylvie Treuillet
   </p>
+execute:
+  echo: true
+highlight-style: dracula
 format: 
   revealjs:
     side: right
     logo: "LatinR_LOGOS-21.png"
     theme: [serif, custom.scss]  # serif, sky, night
-    preview-links: true
     transition: slide
+    preview-links: false
     background-transition: fade
 ---
 
-# Context {.topitop}
+# How was R required?
 
-::: {.fragment}
-<ul>
-<li>
-[STANDUP](https://www.standupproject.eu/) project
+::: {.r-stack}
+![](media/ply-file.png){.fragment .fade-in-then-out}
 
-::: {.standup .fragment .fade-in-then-out}
-<strong>Ojectives:</strong>
+![](media/ply-loaded.png){.fragment .fade-in .r-stretch}
+
+![](media/r-magic.png){.fragment .fade-in-then-out}
+:::
+
+# Some basic context 
+
+## [STANDUP](https://www.standupproject.eu/) project
+
+<p style="margin-bottom: -60px;"> &nbsp; </p>
+
+:::: {.columns style="display: flex;"}
+
+::: {.column style="border-right: 0.1rem dashed;"}
+::: {.fragment .fade-right}
+<strong>Objectives:</strong>
 <ul>
-<li>Provide additional tools to **detect** hyperthermia.</li>
 <li>Help in the **prevention** of diabetic foot ulcers.</li>
 <li>**Evaluate** ulcer status during its treatment.</li>
 <li>Contribute to the **healing** of diabetic foot ulcer. </li>
 </ul>
 :::
+:::
 
-::: {.standup .fragment .fade-in-then-out}
+::: {.column}
+::: {.fragment .fade-left}
 <strong>Important fact:</strong>
-<p>
-Ulcer and wound therapeutic follow-up involves 
+<p style="text-align: left;">
+In order to adapt the medical treatment,
+ulcer and wound therapeutic follow-up involve 
 [periodic visual examination]{.highlight} to monitor the 
 [evolution]{.highlight}
-of its shape and color of the tissues, in order to adapt the treatment. 
+of the wound's shape and color of the tissues.
 </p>
 :::
-
-</li>
-</ul>
 :::
 
-::: {.notes}
-Mention that the 2D images from such registry via smartphone, 
-will be used to generate a 3D mesh of the wound, saved as a **ply file**.
+::::
+
+## How we generate ply files
+
+::: {style="display: flex; flex-direction: row; align-items: center; gap: 2rem; margin-left: -10rem;"}
+::: {.fragment}
+![](media/smartphone.jpg){.fade-in .r-stretch}
 :::
 
-# A partial solution in R {.topitop}
-
-<ul>
-<li>
-[rgl](https://mran.microsoft.com/snapshot/2018-04-25/web/packages/rgl/vignettes/rgl.html)
-
-::: {.rgl-limitation .fragment .fade-in-then-out}
-**Limitation** regarding **periodic visual examination**:
-
-[Slow rendering]{.highlight} process of the
-document which contains the rgl scenes.
-
-This is due to rgl inserting the meshes' extensive geometric data 
-into the HTML document which contains the scenes.
-
-[Example](https://plyloadr-rgl-comparison-example.netlify.app/)
-in the line 512 of its source code.
+::: {.fragment}
+![](media/ply-loaded-thermal.png){.fade-in .r-stretch}
 :::
 
-::: {.rgl-limitation .fragment .fade-in-then-out}
-**Limitation** regarding **evolution monitoring**:
-
-When translucent non lightweight geometries are inserted into an rgl scene, the
-graphic in the resulting HTML page starts to lag considerably, making it unusable.
-
-[Example](https://plyloadr-rgl-comparison-example.netlify.app/#rgl-graphic).
-
-It has already been 
-[documented](http://natverse.org/nat/articles/plotly.html)
-that rgl's main limitation is the 
-rendering of translucent surfaces.
+::: {.fragment}
+![](media/ply-loaded.png){.fade-in .r-stretch}
+:::
 :::
 
-::: {.rgl-limitation .fragment .fade-in-then-out}
-**Limitation** regarding rgl's user interactivity options:
+# A partial solution in R 
 
-Not only does rgl's capabilities for the user to interact with
-the graphics or manipulate them are 
-[limited](https://cran.r-project.org/web/packages/rgl/vignettes/WebGL.html),
-rgl's official [documentation](https://dmurdoch.github.io/rgl/rglClass/) 
-for how to manipulate its graphics via JavaScript is quite poor.
+## [rgl](https://mran.microsoft.com/snapshot/2018-04-25/web/packages/rgl/vignettes/rgl.html) {.r-stretch}
+
+<br>
+
+::: {.incremental}
+- Can R's most popular 3D library solve our problem?
+
+- [No]{style="font-size: 5rem; color: crimson;"} .
+
+- rgl is a great tool for [creating]{.highlight} 3D plots in R, but not for 
+[loading complex geometries]{.highlight}.
+
+- The **plyLoadR** package was created to address the 
+[limitations]{.highlight} of rgl that we encountered in our project.
 :::
-
-</li>
-</ul>
-
-# An unexpected source of hope {.topitop}
-
-<ul>
-<li>
-**Three.js**, JavaScript's most complete 3D library.
-
-::: {.three-js-advantage .fragment .fade-in-then-out}
-Comparison between rgl's *slow rendering* limitation:
-
-[Multiple meshes in a single scene](https://threejs.org/examples/#webgl_performance_static)
-
-[Loading a heavy file into a scene](https://threejs.org/examples/#webgl_loader_gltf)
-
-[Support for loading ply files into a scene](https://threejs.org/examples/#webgl_loader_ply)
-:::
-
-::: {.three-js-advantage .fragment .fade-in-then-out}
-Comparison between rgl's *laggy translucent graphics* limitation:
-
-[No lag due to translucent graphics](https://threejs.org/examples/#webgl_buffergeometry_rawshader)
-:::
-
-::: {.three-js-advantage .fragment .fade-in-then-out}
-Comparison between rgl's capabilities regarding *user manipulation* 
-of the graphics in a scene:
-
-[Select some region in a mesh](https://gkjohnson.github.io/three-mesh-bvh/example/bundle/collectTriangles.html)
-:::
-
-</li>
-</ul>
 
 # plyLoadR 
 
-- Package created to address the previously described limitations of rgl.
+## A new widget
 
-- It was created via the `htmlwidgets` package.
+<br>
 
-- It is a wrapper of the Three.js library, to be used directly from R.
+- Created via the `htmlwidgets` package.
+
+- Wrapper of JavaScript's most complete 3D library, 
+[Three.js](https://threejs.org/examples/#webgl_animation_skinning_ik),
+in order to use it directly from R.
 
 - Allows for the creation of Three.js scenes, via loading ply files into them.
 
-# plyLoadR's advantages {.smaller}
-
-<br>
-<dl>
-
-::: {.fragment .fade-in}
-<dt>Faster rendering of translucent 3D meshes</dt>
-<dd>
-The proposed pipeline implemented on plyLoadR allows for
-no delay due to semi- or fully transparent graphics.
-</dd>
-<br>
+::: {.notes}
+Open Three.js link in a new window, as soon
+as this slide is revealed.
 :::
 
-::: {.fragment .fade-in}
-<dt>Faster rendering overall</dt>
-<dd>
-When recreating a rgl scene with plyLoadR, the rendering time of the .Rmd or .qmd
-file decreases significantly; in some cases, from 5 minutes, to 10 seconds.
-</dd>
+# plyLoadR's advantages over rgl {background-color="black"}
+
+## Lagless support for translucent meshes {.smaller}
+
 <br>
+
+:::: {.columns style="display: flex;"}
+
+::: {.column style="border-right: 0.1rem dashed;"}
+[rgl limitation]{.rgl-limitation}
+
+::: {.fragment .fade-right}
+<br>
+- rgl \+ **lightweight** translucent geometry = **No lag** 
 :::
 
-::: {.fragment .fade-in}
-<dt>Greater amount of tools for interactive graphics</dt>
-<dd>
-plyLoadR graphics can be manipulated with all the default tools of the Three.js
-library, the most powerful JavaScript 3D graphics library in existence.
-</dd>
+::: {.fragment .fade-right}
+<br>
+- rgl \+ **heavy/complex** translucent geometry = **Lag** 
 :::
 
-</dl>
+:::
 
-# Use cases 
+::: {.column}
+[plyLoadR's solution]{.plyLoadR-solution}
 
-Three different scenes are shown in this 
-[website](https://plyloadr-rgl-comparison-example.netlify.app/)
-to provide an example of the advantages of
-the proposed library, plyLoadR, over rgl. 
+::: {.fragment .fade-left style="font-size: 2rem;"}
+<br>
+- Translucent graphics loaded via plyLoadR  
+generate **no lag** whatsoever. 
+:::
 
-The 3D meshes displayed belong to the STANDUP
-project, in which foot wounds of diabetic patients were 3D scanned with photos from
-portable devices in order to be used for wound assessment.
+:::
 
+::::
 
+<br>
+<br>
+<br>
+<br>
 
+[[Example](https://plyloadr-rgl-comparison-example.netlify.app/#rgl-graphic)]{style="display: flex; justify-content: center; font-size: 3rem;"}
 
+## Faster rendering of scenes {.smaller}
 
+<br>
 
+:::: {.columns style="display: flex;"}
 
+::: {.column style="border-right: 0.1rem dashed;"}
+[rgl limitation]{.rgl-limitation}
+
+::: {.fragment .fade-right}
+<br>
+- rgl use in Quarto or R Markdown files
+**increases** the document's **rendering time**.
+:::
+
+::: {.fragment .fade-right}
+<br>
+- **Slow loading** of websites containing heavy rgl scenes.
+:::
+
+:::
+
+::: {.column}
+[plyLoadR's solution]{.plyLoadR-solution}
+
+::: {.fragment .fade-left}
+<br>
+- plyLoadR significantly **reduces** *rendering time*
+and *HTML output size* (KB).
+:::
+
+::: {.fragment .fade-left}
+<br>
+- In the previous example shown, after rendering 
+in different documents the rgl and plyLoadR similar scenes,
+the rendering time decreased from **50 seconds to 10 seconds**,
+and the size of the output HTML page approximately *shrank* from 
+**18000 KB to 10KB**, producing a **faster page load**.
+:::
+
+:::
+
+::::
+
+## Greater user interactivity {.smaller}
+
+<br>
+
+:::: {.columns style="display: flex;"}
+
+::: {.column style="border-right: 0.1rem dashed;"}
+[rgl limitation]{.rgl-limitation}
+
+::: {.fragment .fade-right}
+<br>
+- **Very limited** capabilities for **user interaction** with the scene.
+:::
+
+::: {.fragment .fade-right}
+<br>
+- **Deficient** official [documentation](https://cran.r-project.org/web/packages/rgl/vignettes/WebGL.html) of such user interaction capabilities.
+:::
+
+:::
+
+::: {.column}
+[plyLoadR's solution]{.plyLoadR-solution}
+
+::: {.fragment .fade-left style="font-size: 2rem;"}
+<br>
+- plyLoadR scenes can be manipulated with all the default tools
+of Three.js, the **most complete** JavaScript 3D graphics library in existence.
+:::
+
+:::
+
+::::
+
+# The `plyLoadR` function {background-color="black"}
+
+## {auto-animate="true"}
+
+```{r} 
+#| output-location: column-fragment
+#| code-line-numbers: 1,5|2|3|4
+plyLoadR::plyLoadR(
+  paths = "./ply-files/2020-07-09.ply",
+  localFiles = TRUE,
+  elementId = "model"
+)
+```
+
+## {auto-animate="true"}
+
+```{r} 
+#| output-location: column-fragment
+#| code-line-numbers: 6|2-5|7
+plyLoadR::plyLoadR(
+  paths = list(
+    "C:/Users/HP/Desktop/geo-01.ply",
+    "C:/Users/HP/Desktop/geo-02.ply"
+  ),
+  localFiles = FALSE,
+  elementId = "model1"
+)
+```
+
+## {auto-animate="true"}
+
+```{r} 
+#| output-location: column-fragment
+#| code-line-numbers: 2-6|7|8|9|10
+plyLoadR::plyLoadR(
+  paths = list(
+    "./ply_local_copies/model1/ply_copy_1/geo-01.ply",
+    "./ply_local_copies/model1/ply_copy_2/geo-02.ply"
+  ),
+  localFiles = TRUE,
+  elementId = "model2",
+  isWireframe = list(TRUE, FALSE),
+  isTransparent = TRUE,
+  opacity = list(1, 0.5)
+)
+```
+
+## {auto-animate="true"}
+
+```{r}
+#| output-location: column-fragment
+#| code-line-numbers: 2-7|8,14|9|10-13
+plyLoadR::plyLoadR(
+  paths = list(
+    "./ply-files/2020-07-09.ply",
+    "./ply-files/2020-07-24.ply"
+  ),
+  localFiles = TRUE,
+  elementId = "model3",
+  toggleMeshes = list(
+    showEvolution = FALSE,
+    labels = list(
+      "2020-07-09",
+      "2020-07-24"
+    )
+  )
+)
+```
+
+::: {.notes}
+Reload page when you reach this slide.
+Fixes each upcoming canvas.
+:::
+
+## {auto-animate="true"}
+
+```{r}
+#| output-location: column-fragment
+#| code-line-numbers: 2-8,10-14|9|15
+plyLoadR::plyLoadR(
+  paths = list(
+    "./ply-files/2020-07-09.ply",
+    "./ply-files/2020-07-24.ply"
+  ),
+  localFiles = TRUE,
+  elementId = "model4",
+  toggleMeshes = list(
+    showEvolution = TRUE,
+    labels = list(
+      "2020-07-09",
+      "2020-07-24"
+    )
+  ),
+  isTransparent = TRUE
+)
+```
+
+## {auto-animate="true"}
+
+```{r}
+#| output-location: column-fragment
+#| code-line-numbers: 2-4|5,16|6-10|11-15|17,23|18-22
+plyLoadR::plyLoadR(
+  paths = "./ply-files/2020-07-09.ply",
+  localFiles = TRUE,
+  elementId = "model5",
+  camera = list(
+    position = list(
+      x = 23.417,
+      y = -8.950,
+      z = 28.593
+    ),
+    up = list(
+      x = 0.484,
+      y = 0.615,
+      z = 0.621
+    )
+  ),
+  controls = list(
+    target = list(
+      x = 1.380,
+      y = 1.561,
+      z = 1.450
+    )
+  )
+)
+```
+
+# Conclusion {.topitop background-color="black"}
+
+**plyLoadR** is a great tool for:
+
+- **Loading complex geometries**, stored as ply files, into a website.
+
+- **Rendering translucent geometries** in a 3D scene.
+
+- **Reducing a scene's rendering time**, producing also **faster page loading**.
+
+- **Creating interactive 3D scenes** with extraordinary user interaction capabilities.
+
+# {background-color="skyblue"}
+
+<div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+Github [repository](https://github.com/lucio-cornejo/plyLoadR/) 
+of the `plyLoadR` package.
+
+<br>
+
+<img src="./LatinR_LOGOS-23.png" height="300">
+
+<br>
+
+<h1>Thank you!</h1>
+</div>
