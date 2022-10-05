@@ -137,3 +137,10 @@ code.sourceCode > span > a {
     overflow: hidden;
   }
 }
+
+// Border
+.bordered {
+  margin-top: 4rem;
+  border: dashed crimson;
+  padding: 1rem 0 1rem 2rem;
+}

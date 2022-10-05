@@ -7,6 +7,7 @@ author: |
   </p>
 execute:
   echo: true
+  eval: true
 highlight-style: dracula
 format: 
   revealjs:
@@ -228,8 +229,8 @@ and the size of the output HTML page approximately *shrank* from
 
 ::: {.fragment .fade-left style="font-size: 2rem;"}
 <br>
-- plyLoadR scenes can be manipulated with all the default tools
-of Three.js, the **most complete** JavaScript 3D graphics library in existence.
+- plyLoadR scenes can be customized with tools from Three.js, 
+the **most complete** JavaScript 3D graphics library in existence.
 :::
 
 :::
@@ -249,6 +250,48 @@ plyLoadR::plyLoadR(
   elementId = "model"
 )
 ```
+
+##
+
+:::: {.columns style="display: flex;"}
+
+<br>
+<br>
+
+::: {.column style="border-right: 0.1rem dashed;"}
+**localFiles = FALSE** 
+<br>
+
+::: {.fragment .fade-right .bordered}
+\-folderX  
+&nbsp;&nbsp;&nbsp;&nbsp;\-\-index.qmd  
+\-ply_files  
+&nbsp;&nbsp;&nbsp;&nbsp;\-\-geo_01.ply
+
+:::
+:::
+
+::: {.column}
+**localFiles = TRUE** 
+<br>
+
+::: {.fragment .fade-left .bordered}
+\-index.qmd  
+\-ply_files  
+&nbsp;&nbsp;&nbsp;&nbsp;\-\-geo_01.ply
+
+:::
+:::
+
+::::
+
+<br>
+<br>
+
+::: {.fragment .fade-in}
+`httd(...)` function from R' s [servr](https://cran.r-project.org/web/packages/servr/servr.pdf#page=3) package.
+:::
+
 
 ## {auto-animate="true"}
 
@@ -333,11 +376,89 @@ plyLoadR::plyLoadR(
 )
 ```
 
+## Customizable Three.js objects {.smaller}
+
+:::: {.columns style="display: flex;"}
+
+::: {.column style="border-right: 0.1rem dashed;"}
+**camera** 
+
+::: {.fragment .fade-right}
+```{.js}
+camera = {
+  "position" : {
+    x = 23.417,
+    y = -8.950,
+    z = 28.593
+  },
+  "up" : {
+    x = 0.484,
+    y = 0.615,
+    z = 0.621
+  },
+  ...
+}
+```
+:::
+
+::: {.fragment .fade-right}
+```{.r}
+camera = list(
+  position = list(
+    x = 23.417,
+    y = -8.950,
+    z = 28.593
+  ),
+  up = list(
+    x = 0.484,
+    y = 0.615,
+    z = 0.621
+  ),
+  ...
+)
+```
+:::
+:::
+
+::: {.column}
+**controls** 
+
+::: {.fragment .fade-left}
+```{.js}
+controls = {
+  "target" : {
+    x = 1.380,
+    y = 1.561,
+    z = 1.450
+  },
+  ...
+}
+```
+:::
+
+::: {.fragment .fade-left}
+```{.r}
+controls = list(
+  target = list(
+    x = 1.380,
+    y = 1.561,
+    z = 1.450
+  ),
+  ...
+)
+```
+:::
+:::
+
+::::
+
+
 ## {auto-animate="true"}
 
 ```{r}
+#| eval: true
 #| output-location: column-fragment
-#| code-line-numbers: 2-4|5,16|6-10|11-15|17,23|18-22
+#| code-line-numbers: 2-4|5-16|17-23
 plyLoadR::plyLoadR(
   paths = "./ply-files/2020-07-09.ply",
   localFiles = TRUE,
@@ -368,13 +489,13 @@ plyLoadR::plyLoadR(
 
 **plyLoadR** is a great tool for:
 
-- **Loading complex geometries**, stored as ply files, into a website.
+- [Loading complex geometries]{style="color: crimson;"}, stored as ply files, into a website.
 
-- **Rendering translucent geometries** in a 3D scene.
+- [Rendering translucent geometries]{style="color: crimson;"} in a 3D scene.
 
-- **Reducing a scene's rendering time**, producing also **faster page loading**.
+- [Reducing a scene's rendering time]{style="color: crimson;"}, producing also [faster page loading]{style="color: crimson;"}.
 
-- **Creating interactive 3D scenes** with extraordinary user interaction capabilities.
+- [Creating interactive 3D scenes]{style="color: crimson;"} with diverse tools for user interaction.
 
 # {background-color="skyblue"}
 

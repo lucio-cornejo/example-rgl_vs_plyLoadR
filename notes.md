@@ -21,3 +21,9 @@ en el website son del STARTUP project.
 
 + Al final, añadir slide de conclusión. Resaltar lo logrado por
 el paquete, en vez de tanto las desventajas de rgl.
+
+# En expo
+
+- Show use of elementId cuando empieza slide de customizable 
+threejs objects, para model4.
+En esa slide, usar el alt+click zoom para mostrar el code.
